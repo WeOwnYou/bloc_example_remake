@@ -1,13 +1,20 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:vedita_learning2/authentication/authentication.dart';
-import 'package:vedita_learning2/authentication/view/authentication_page.dart';
+import 'package:hive_repository/hive_repository.dart';
+import 'package:user_repository/user_repository.dart';
+import 'package:vedita_learning2/ui/ui.dart';
 
 part 'router.gr.dart';
 
 abstract class Routes {
   static const authScreen = 'auth_screen';
+  static const mainScreen = 'main_screen';
+  static const homePage = 'home_page';
+  static const toDoListPage = 'to_do_list_page';
+  static const notificationsPage = 'notifications_page';
+  static const searchPage = 'search_page';
+  static const addTaskPage = 'add_task_page';
 }
 
 @MaterialAutoRouter(
@@ -19,9 +26,29 @@ abstract class Routes {
       page: AuthenticationPage,
     ),
     AutoRoute<void>(
-      path: 'test',
-      page: TestPage,
-    )
+      path: Routes.mainScreen,
+      name: 'MainScreenRoute',
+      page: BottomNavBarPage,
+      children: [
+        AutoRoute<void>(
+          page: HomePage,
+          initial: true,
+          path: Routes.homePage,
+        ),
+        AutoRoute<void>(
+          page: ToDoListPage,
+          path: Routes.toDoListPage,
+        ),
+        AutoRoute<void>(
+          page: NotificationsPage,
+          path: Routes.notificationsPage,
+        ),
+        AutoRoute<void>(
+          page: SearchPage,
+          path: Routes.searchPage,
+        ),
+      ],
+    ),
   ],
 )
 class AppRouter extends _$AppRouter {

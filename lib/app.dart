@@ -1,16 +1,20 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_repository/hive_repository.dart';
 import 'package:user_repository/user_repository.dart';
-import 'package:vedita_learning2/authentication/authentication.dart';
+import 'package:vedita_learning2/app_settings/app_colors.dart';
 import 'package:vedita_learning2/navigation/router.dart';
+import 'package:vedita_learning2/ui/authentication/authentication.dart';
 
 class MyApp extends StatelessWidget {
   final UserRepository userRepository;
   final AuthenticationRepository authenticationRepository;
+  final HiveRepository hiveRepository;
   const MyApp({
     super.key,
     required this.userRepository,
+    required this.hiveRepository,
     required this.authenticationRepository,
   });
   @override
@@ -23,6 +27,7 @@ class MyApp extends StatelessWidget {
           userRepository: userRepository,
         ),
         child: MaterialApp.router(
+          theme: ThemeData(backgroundColor: AppColors.backgroundColor),
           routerDelegate: AppRouter.instance().delegate(),
           routeInformationParser: AppRouter.instance().defaultRouteParser(),
           builder: buildBlocListener,
@@ -38,17 +43,24 @@ class MyApp extends StatelessWidget {
           case AuthenticationStatus.unknown:
             break;
           case AuthenticationStatus.authenticated:
-            AppRouter.instance().replace(const TestRoute());
+            AppRouter.instance().replace(
+              MainScreenRoute(
+                hiveRepository: hiveRepository,
+                userRepository: userRepository,
+              ),
+            );
             break;
           case AuthenticationStatus.unauthenticated:
-            AppRouter.instance().replace(AuthenticationRoute(status: state.status));
+            AppRouter.instance()
+                .replace(AuthenticationRoute(status: state.status));
             break;
           case AuthenticationStatus.registering:
-            AppRouter.instance().replace(AuthenticationRoute(status: state.status));
+            AppRouter.instance()
+                .replace(AuthenticationRoute(status: state.status));
             break;
           case AuthenticationStatus.failure:
-            print('fail');
-            AppRouter.instance().replace(AuthenticationRoute(status: state.status));
+            AppRouter.instance()
+                .replace(AuthenticationRoute(status: state.status));
             break;
         }
       },
