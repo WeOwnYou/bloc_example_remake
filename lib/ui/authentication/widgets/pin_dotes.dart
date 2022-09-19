@@ -15,7 +15,7 @@ class BuildPinDotesWidget extends StatelessWidget {
         ) ==
         AuthenticationStatus.failure;
     final padding = isFailure ? 15.0 : 0.0;
-    final size = MediaQuery.of(context).size.width / 16;
+    final size = MediaQuery.of(context).size.width / 16.5;
     return AnimatedPadding(
       padding: EdgeInsets.only(left: padding),
       duration: const Duration(microseconds: 1),
@@ -46,8 +46,8 @@ class _PinDote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size * 1.5,
-      height: size * 1.5,
+      width: size,
+      height: size,
       margin: EdgeInsets.only(right: size, left: size, top: size * 2),
       decoration: BoxDecoration(
         shape: BoxShape.circle,

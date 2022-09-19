@@ -16,11 +16,12 @@ class BottomNavBarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // print((hiveRepository == null).toString() + (userRepository == null).toString());
+    // print(hiveRepository, userRepository)
     return AutoTabsScaffold(
       routes: [
         HomeRoute(
-          hiveRepository: hiveRepository,
-          userRepository: userRepository,
+          // hiveRepository: hiveRepository,
+          // userRepository: userRepository,
         ),
         const ToDoListRoute(),
         const NotificationsRoute(),

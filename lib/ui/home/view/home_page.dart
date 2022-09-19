@@ -5,26 +5,26 @@ import 'package:user_repository/user_repository.dart';
 import 'package:vedita_learning2/ui/home/bloc/home_bloc.dart';
 
 class HomePage extends StatelessWidget {
-  final UserRepository userRepository;
-  final HiveRepository hiveRepository;
+  // final UserRepository userRepository;
+  // final HiveRepository hiveRepository;
   const HomePage({
     super.key,
-    required this.userRepository,
-    required this.hiveRepository,
+    // required this.userRepository,
+    // required this.hiveRepository,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider<HomeBloc>(
-        create: (_) => HomeBloc(
-          userRepository: userRepository,
-          hiveRepository: hiveRepository,
-        ),
-        child: const Center(
+      // body: BlocProvider<HomeBloc>(
+      //   create: (_) => HomeBloc(
+      //     userRepository: ,
+      //     hiveRepository: hiveRepository,
+      //   ),
+        body: const Center(
           child: Text('HomePage'),
         ),
-      ),
-    );
+      );
+    // );
   }
 }

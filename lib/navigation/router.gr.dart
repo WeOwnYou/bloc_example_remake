@@ -47,8 +47,8 @@ class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: HomePage(
           key: args.key,
-          userRepository: args.userRepository,
-          hiveRepository: args.hiveRepository,
+          // userRepository: args.userRepository,
+          // hiveRepository: args.hiveRepository,
         ),
       );
     },
@@ -200,15 +200,15 @@ class MainScreenRouteArgs {
 class HomeRoute extends PageRouteInfo<HomeRouteArgs> {
   HomeRoute({
     Key? key,
-    required UserRepository userRepository,
-    required HiveRepository hiveRepository,
+    // required UserRepository userRepository,
+    // required HiveRepository hiveRepository,
   }) : super(
           HomeRoute.name,
           path: 'home_page',
           args: HomeRouteArgs(
             key: key,
-            userRepository: userRepository,
-            hiveRepository: hiveRepository,
+            // userRepository: userRepository,
+            // hiveRepository: hiveRepository,
           ),
         );
 
@@ -218,19 +218,20 @@ class HomeRoute extends PageRouteInfo<HomeRouteArgs> {
 class HomeRouteArgs {
   const HomeRouteArgs({
     this.key,
-    required this.userRepository,
-    required this.hiveRepository,
+    // required this.userRepository,
+    // required this.hiveRepository,
   });
 
   final Key? key;
 
-  final UserRepository userRepository;
-
-  final HiveRepository hiveRepository;
+  // final UserRepository userRepository;
+  //
+  // final HiveRepository hiveRepository;
 
   @override
   String toString() {
-    return 'HomeRouteArgs{key: $key, userRepository: $userRepository, hiveRepository: $hiveRepository}';
+    return '';
+    // return 'HomeRouteArgs{key: $key, userRepository: $userRepository, hiveRepository: $hiveRepository}';
   }
 }
 

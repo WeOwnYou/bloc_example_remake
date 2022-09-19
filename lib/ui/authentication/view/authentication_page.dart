@@ -23,16 +23,17 @@ class AuthenticationPage extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: SafeArea(
-              child: Text(enteringText),
-            ),
+            flex: 3,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+                child: Text(enteringText),),
           ),
           const Expanded(
             flex: 2, //3?
             child: BuildPinDotesWidget(),
           ),
           const Expanded(
-            flex: 12,
+            flex: 7,
             child: BuildNumPadWidget(),
           ),
         ],

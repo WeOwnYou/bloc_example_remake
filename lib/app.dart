@@ -10,18 +10,17 @@ import 'package:vedita_learning2/ui/authentication/authentication.dart';
 class MyApp extends StatelessWidget {
   final UserRepository userRepository;
   final AuthenticationRepository authenticationRepository;
-  final HiveRepository hiveRepository;
   const MyApp({
     super.key,
     required this.userRepository,
-    required this.hiveRepository,
     required this.authenticationRepository,
   });
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider<AuthenticationRepository>.value(
-      value: authenticationRepository,
-      child: BlocProvider<AuthenticationBloc>(
+    return
+      // RepositoryProvider<AuthenticationRepository>.value(
+      // value: authenticationRepository,
+      BlocProvider<AuthenticationBloc>(
         create: (_) => AuthenticationBloc(
           authenticationRepository: authenticationRepository,
           userRepository: userRepository,
@@ -32,7 +31,7 @@ class MyApp extends StatelessWidget {
           routeInformationParser: AppRouter.instance().defaultRouteParser(),
           builder: buildBlocListener,
         ),
-      ),
+      // ),
     );
   }
 
@@ -45,7 +44,7 @@ class MyApp extends StatelessWidget {
           case AuthenticationStatus.authenticated:
             AppRouter.instance().replace(
               MainScreenRoute(
-                hiveRepository: hiveRepository,
+                hiveRepository: HiveRepository(),
                 userRepository: userRepository,
               ),
             );

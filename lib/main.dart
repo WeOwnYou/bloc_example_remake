@@ -6,14 +6,13 @@ import 'package:user_repository/user_repository.dart';
 import 'app.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
   Hive
     ..registerAdapter(TaskTypesAdapter())
     ..registerAdapter(TimeOfDayAdapter());
-  await Hive.initFlutter();
-  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MyApp(
-      hiveRepository: HiveRepository(),
       authenticationRepository: AuthenticationRepository(),
       userRepository: UserRepository(),
     ),

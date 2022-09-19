@@ -14,37 +14,41 @@ class BuildNumPadWidget extends StatelessWidget {
       fontWeight: FontWeight.bold,
       fontSize: 30,
     );
-    return GridView.count(
-      crossAxisCount: 3,
-      children: [
-        ...List.generate(
-          9,
-          (index) => _NumPadButtonWidget(
-            digit: index + 1,
-            widget: Text(
-              (index + 1).toString(),
+    return FractionallySizedBox(
+      widthFactor: 0.7,
+      child: GridView.count(
+        physics: const NeverScrollableScrollPhysics(),
+        crossAxisCount: 3,
+        children: [
+          ...List.generate(
+            9,
+            (index) => _NumPadButtonWidget(
+              digit: index + 1,
+              widget: Text(
+                (index + 1).toString(),
+                style: textStyle,
+              ),
+              circleSize: size,
+            ),
+          ),
+          _NumPadButtonWidget(
+            widget: const Icon(Icons.backspace),
+            circleSize: size,
+          ),
+          _NumPadButtonWidget(
+            digit: 0,
+            widget: const Text(
+              '0',
               style: textStyle,
             ),
             circleSize: size,
           ),
-        ),
-        _NumPadButtonWidget(
-          widget: const Icon(Icons.backspace),
-          circleSize: size,
-        ),
-        _NumPadButtonWidget(
-          digit: 0,
-          widget: const Text(
-            '0',
-            style: textStyle,
+          _NumPadButtonWidget(
+            widget: const Icon(Icons.done),
+            circleSize: size,
           ),
-          circleSize: size,
-        ),
-        _NumPadButtonWidget(
-          widget: const Icon(Icons.done),
-          circleSize: size,
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
