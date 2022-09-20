@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_repository/hive_repository.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:vedita_learning2/navigation/router.dart';
+import 'package:vedita_learning2/ui/bottom_nav_bar/bloc/main_screen_bloc.dart';
 
-class BottomNavBarPage extends StatelessWidget {
+class BottomNavBarPage extends StatelessWidget implements AutoRouteWrapper {
   final HiveRepository hiveRepository;
   final UserRepository userRepository;
   const BottomNavBarPage({
@@ -15,20 +17,16 @@ class BottomNavBarPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print((hiveRepository == null).toString() + (userRepository == null).toString());
-    // print(hiveRepository, userRepository)
     return AutoTabsScaffold(
-      routes: [
-        HomeRoute(
-          // hiveRepository: hiveRepository,
-          // userRepository: userRepository,
-        ),
-        const ToDoListRoute(),
-        const NotificationsRoute(),
-        const SearchRoute(),
+      routes: const [
+        HomeRoute(),
+        ToDoListRoute(),
+        NotificationsRoute(),
+        SearchRoute(),
       ],
       bottomNavigationBuilder: (context, tabsRouter) {
         return BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           selectedItemColor: Colors.purple,
           unselectedItemColor: Colors.grey,
           currentIndex: tabsRouter.activeIndex,
@@ -53,6 +51,17 @@ class BottomNavBarPage extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return BlocProvider<MainBloc>(
+      create: (ctx) => MainBloc(
+        userRepository: userRepository,
+        hiveRepository: hiveRepository,
+      ),
+      child: this,
     );
   }
 }

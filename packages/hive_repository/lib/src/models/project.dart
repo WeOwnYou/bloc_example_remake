@@ -9,6 +9,13 @@ class Project extends HiveObject {
   bool? isDone = false;
   @HiveField(2)
   DateTime dateTime;
+  @HiveField(3)
+  int id;
 
-  Project({required this.projectTitle, this.isDone, required this.dateTime});
+  Project({
+    required this.projectTitle,
+    this.isDone,
+    required this.dateTime,
+    required this.id,
+  });
 }

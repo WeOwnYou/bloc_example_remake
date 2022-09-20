@@ -175,7 +175,6 @@ linter:
     directives_ordering: true
     do_not_use_environment: true
     eol_at_end_of_file: true
-    flutter_style_todos: true
     leading_newlines_in_multiline_strings: true
     lines_longer_than_80_chars: false
     missing_whitespace_between_adjacent_strings: true

@@ -29,27 +29,21 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     MainScreenRoute.name: (routeData) {
-      print(routeData.match);
       final args = routeData.argsAs<MainScreenRouteArgs>();
       return MaterialPageX<void>(
         routeData: routeData,
-        child: BottomNavBarPage(
+        child: WrappedRoute(
+            child: BottomNavBarPage(
           key: args.key,
           hiveRepository: args.hiveRepository,
           userRepository: args.userRepository,
-        ),
+        )),
       );
     },
     HomeRoute.name: (routeData) {
-      print(routeData.args.toString() + '???');
-      final args = routeData.argsAs<HomeRouteArgs>();
       return MaterialPageX<void>(
         routeData: routeData,
-        child: HomePage(
-          key: args.key,
-          // userRepository: args.userRepository,
-          // hiveRepository: args.hiveRepository,
-        ),
+        child: WrappedRoute(child: const HomePage()),
       );
     },
     ToDoListRoute.name: (routeData) {
@@ -197,42 +191,14 @@ class MainScreenRouteArgs {
 
 /// generated route for
 /// [HomePage]
-class HomeRoute extends PageRouteInfo<HomeRouteArgs> {
-  HomeRoute({
-    Key? key,
-    // required UserRepository userRepository,
-    // required HiveRepository hiveRepository,
-  }) : super(
+class HomeRoute extends PageRouteInfo<void> {
+  const HomeRoute()
+      : super(
           HomeRoute.name,
           path: 'home_page',
-          args: HomeRouteArgs(
-            key: key,
-            // userRepository: userRepository,
-            // hiveRepository: hiveRepository,
-          ),
         );
 
   static const String name = 'HomeRoute';
-}
-
-class HomeRouteArgs {
-  const HomeRouteArgs({
-    this.key,
-    // required this.userRepository,
-    // required this.hiveRepository,
-  });
-
-  final Key? key;
-
-  // final UserRepository userRepository;
-  //
-  // final HiveRepository hiveRepository;
-
-  @override
-  String toString() {
-    return '';
-    // return 'HomeRouteArgs{key: $key, userRepository: $userRepository, hiveRepository: $hiveRepository}';
-  }
 }
 
 /// generated route for

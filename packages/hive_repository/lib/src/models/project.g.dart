@@ -20,19 +20,22 @@ class ProjectAdapter extends TypeAdapter<Project> {
       projectTitle: fields[0] as String,
       isDone: fields[1] as bool?,
       dateTime: fields[2] as DateTime,
+      id: fields[3] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, Project obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.projectTitle)
       ..writeByte(1)
       ..write(obj.isDone)
       ..writeByte(2)
-      ..write(obj.dateTime);
+      ..write(obj.dateTime)
+      ..writeByte(3)
+      ..write(obj.id);
   }
 
   @override

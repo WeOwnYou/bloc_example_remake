@@ -17,8 +17,8 @@ class TimeOfDayAdapter extends TypeAdapter<TimeOfDay> {
 
   @override
   TimeOfDay read(BinaryReader reader) {
-    var numOfFields = reader.readByte();
-    var fields = <int, dynamic>{
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
       for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return TimeOfDay(hour: fields[0] as int, minute: fields[1] as int);

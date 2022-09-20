@@ -59,7 +59,7 @@ class AuthenticationBloc
       } else {
         emit(state.copyWith(pin: '${state.pin}${event.digit}'));
       }
-      if(state.pin.length == 4) {
+      if (state.pin.length == 4) {
         add(PinSubmitted());
       }
     }
