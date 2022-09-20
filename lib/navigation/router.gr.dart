@@ -46,10 +46,10 @@ class _$AppRouter extends RootStackRouter {
         child: WrappedRoute(child: const HomePage()),
       );
     },
-    ToDoListRoute.name: (routeData) {
+    ToDoListEmptyRoute.name: (routeData) {
       return MaterialPageX<void>(
         routeData: routeData,
-        child: const ToDoListPage(),
+        child: const EmptyRouterPage(),
       );
     },
     NotificationsRoute.name: (routeData) {
@@ -62,6 +62,18 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<void>(
         routeData: routeData,
         child: const SearchPage(),
+      );
+    },
+    ToDoListRoute.name: (routeData) {
+      return MaterialPageX<void>(
+        routeData: routeData,
+        child: WrappedRoute(child: const ToDoListPage()),
+      );
+    },
+    AddTaskRoute.name: (routeData) {
+      return MaterialPageX<void>(
+        routeData: routeData,
+        child: const AddTaskPage(),
       );
     },
   };
@@ -95,9 +107,21 @@ class _$AppRouter extends RootStackRouter {
               parent: MainScreenRoute.name,
             ),
             RouteConfig(
-              ToDoListRoute.name,
+              ToDoListEmptyRoute.name,
               path: 'to_do_list_page',
               parent: MainScreenRoute.name,
+              children: [
+                RouteConfig(
+                  ToDoListRoute.name,
+                  path: '',
+                  parent: ToDoListEmptyRoute.name,
+                ),
+                RouteConfig(
+                  AddTaskRoute.name,
+                  path: 'add_task_page',
+                  parent: ToDoListEmptyRoute.name,
+                ),
+              ],
             ),
             RouteConfig(
               NotificationsRoute.name,
@@ -202,15 +226,16 @@ class HomeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [ToDoListPage]
-class ToDoListRoute extends PageRouteInfo<void> {
-  const ToDoListRoute()
+/// [EmptyRouterPage]
+class ToDoListEmptyRoute extends PageRouteInfo<void> {
+  const ToDoListEmptyRoute({List<PageRouteInfo>? children})
       : super(
-          ToDoListRoute.name,
+          ToDoListEmptyRoute.name,
           path: 'to_do_list_page',
+          initialChildren: children,
         );
 
-  static const String name = 'ToDoListRoute';
+  static const String name = 'ToDoListEmptyRoute';
 }
 
 /// generated route for
@@ -235,4 +260,28 @@ class SearchRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SearchRoute';
+}
+
+/// generated route for
+/// [ToDoListPage]
+class ToDoListRoute extends PageRouteInfo<void> {
+  const ToDoListRoute()
+      : super(
+          ToDoListRoute.name,
+          path: '',
+        );
+
+  static const String name = 'ToDoListRoute';
+}
+
+/// generated route for
+/// [AddTaskPage]
+class AddTaskRoute extends PageRouteInfo<void> {
+  const AddTaskRoute()
+      : super(
+          AddTaskRoute.name,
+          path: 'add_task_page',
+        );
+
+  static const String name = 'AddTaskRoute';
 }

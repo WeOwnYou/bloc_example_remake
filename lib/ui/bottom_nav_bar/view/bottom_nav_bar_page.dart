@@ -20,7 +20,7 @@ class BottomNavBarPage extends StatelessWidget implements AutoRouteWrapper {
     return AutoTabsScaffold(
       routes: const [
         HomeRoute(),
-        ToDoListRoute(),
+        ToDoListEmptyRoute(),
         NotificationsRoute(),
         SearchRoute(),
       ],

@@ -1,8 +1,10 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_route/empty_router_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_repository/hive_repository.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:vedita_learning2/ui/add_task/view/add_task_page.dart';
 import 'package:vedita_learning2/ui/ui.dart';
 
 part 'router.gr.dart';
@@ -36,8 +38,19 @@ abstract class Routes {
           path: Routes.homePage,
         ),
         AutoRoute<void>(
-          page: ToDoListPage,
+          page: EmptyRouterPage,
           path: Routes.toDoListPage,
+          name: 'ToDoListEmptyRoute',
+          children: [
+            AutoRoute<void>(
+              page: ToDoListPage,
+              initial: true,
+            ),
+            AutoRoute<void>(
+              page: AddTaskPage,
+              path: Routes.addTaskPage,
+            ),
+          ],
         ),
         AutoRoute<void>(
           page: NotificationsPage,

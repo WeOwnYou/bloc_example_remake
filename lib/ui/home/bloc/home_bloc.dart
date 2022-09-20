@@ -9,6 +9,11 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
   final ScrollController _pageScrollController = ScrollController();
   double _projectPageSize = 0;
 
+  HomeBloc() : super(const HomePageState.initial()) {
+    on<ChangeCategory>(_onChangeCategory);
+    on<ChangeSelectedDot>(_onChangeSelectedDot);
+  }
+
   ScrollController getPageScrollController(double projectPageSize) {
     _projectPageSize = projectPageSize;
     _pageScrollController.addListener(_pageControllerListener);
@@ -25,11 +30,6 @@ class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
     if (state.selectedDotIndex != newIndex) {
       add(ChangeSelectedDot(newIndex));
     }
-  }
-
-  HomeBloc() : super(const HomePageState.initial()) {
-    on<ChangeCategory>(_onChangeCategory);
-    on<ChangeSelectedDot>(_onChangeSelectedDot);
   }
 
   void _onChangeCategory(
