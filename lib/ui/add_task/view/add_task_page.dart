@@ -1,10 +1,8 @@
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_repository/hive_repository.dart';
 import 'package:vedita_learning2/app_settings/app_colors.dart';
-import 'package:vedita_learning2/navigation/router.dart';
 import 'package:vedita_learning2/ui/add_task/bloc/add_task_bloc.dart';
 import 'package:vedita_learning2/ui/add_task/view/add_task_header.dart';
 import 'package:vedita_learning2/ui/bottom_nav_bar/bloc/main_screen_bloc.dart';
@@ -135,9 +133,8 @@ class AddTaskPage extends StatelessWidget implements AutoRouteWrapper {
                                 ),
                                 child: MaterialButton(
                                   onPressed: () {
-                                    context.read<AuthenticationRepository>().logOut();
                                     addEvent(AddTask());
-                                    AppRouter.instance().navigateBack();
+                                    AutoRouter.of(context).pop();
                                   },
                                   child: const Center(
                                     child: Text(

@@ -29,7 +29,7 @@ class AuthenticationPage extends StatelessWidget {
                 child: Text(enteringText),),
           ),
           const Expanded(
-            flex: 2, //3?
+            flex: 2,
             child: BuildPinDotesWidget(),
           ),
           const Expanded(

@@ -64,6 +64,7 @@ abstract class Routes {
     ),
   ],
 )
+
 class AppRouter extends _$AppRouter {
   static final AppRouter _router = AppRouter._();
 

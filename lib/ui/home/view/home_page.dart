@@ -1,4 +1,3 @@
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,27 +8,8 @@ import 'package:vedita_learning2/ui/home/bloc/home_bloc.dart';
 import 'package:vedita_learning2/ui/home/widgets/widgets.dart';
 import 'package:vedita_learning2/ui/widgets/widgets.dart';
 
-class HomePage extends StatelessWidget with WidgetsBindingObserver implements AutoRouteWrapper{
+class HomePage extends StatelessWidget implements AutoRouteWrapper{
   const HomePage({super.key});
-
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch(state){
-      case AppLifecycleState.resumed:
-        // TODO: Handle this case.
-        break;
-      case AppLifecycleState.inactive:
-        // TODO: Handle this case.
-        break;
-      case AppLifecycleState.paused:
-        // TODO: Handle this case.
-        break;
-      case AppLifecycleState.detached:
-        // TODO: Handle this case.
-        break;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +74,6 @@ class _BuildAppBar extends StatelessWidget {
             color: AppColors.textAndIconColor,
           ),
           onPressed: () {
-            context.read<AuthenticationRepository>().logOut();
             ScaffoldMessenger.of(context).showSnackBar(
               BuildAddProjectSnackBar(
                 key: key,

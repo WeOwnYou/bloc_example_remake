@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 
-// class ChangeCategoryEvent<Event> extends Object{
-//   String title;
-//   ChangeCategoryEvent(this.title);
-// }
-
 class CategoryCardWidget<ChangeCategoryEvent> extends StatelessWidget {
   final String title;
   final bool isSelected;

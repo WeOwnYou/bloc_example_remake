@@ -118,6 +118,6 @@ class AddTaskBloc extends Bloc<AddTaskEvent, AddTaskState> {
       dateTime: state.date,
     );
     await hiveRepository.addTask(task);
-    addEventFromMainBloc(RefreshTasks());
+    // addEventFromMainBloc(RefreshTasks());
   }
 }

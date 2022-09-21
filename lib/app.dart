@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_repository/hive_repository.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:vedita_learning2/app_settings/app_colors.dart';
+import 'package:vedita_learning2/life_cycle_manager.dart';
 import 'package:vedita_learning2/navigation/router.dart';
 import 'package:vedita_learning2/ui/authentication/authentication.dart';
 
@@ -17,21 +18,25 @@ class MyApp extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider<AuthenticationRepository>.value(
-      value: authenticationRepository,
-      child: BlocProvider<AuthenticationBloc>(
+    // return RepositoryProvider<AuthenticationRepository>.value(
+    //   value: authenticationRepository,
+    //   child:
+      return
+        BlocProvider<AuthenticationBloc>(
         create: (_) => AuthenticationBloc(
           authenticationRepository: authenticationRepository,
           userRepository: userRepository,
         ),
-        child: MaterialApp.router(
-          theme: ThemeData(backgroundColor: AppColors.backgroundColor),
-          routerDelegate: AppRouter.instance().delegate(),
-          routeInformationParser: AppRouter.instance().defaultRouteParser(),
-          builder: buildBlocListener,
+        child: LifeCycleManager(
+          child: MaterialApp.router(
+            theme: ThemeData(backgroundColor: AppColors.backgroundColor),
+            routerDelegate: AppRouter.instance().delegate(),
+            routeInformationParser: AppRouter.instance().defaultRouteParser(),
+            builder: buildBlocListener,
+          ),
         ),
-      ),
-    );
+      );
+    // );
   }
 
   Widget buildBlocListener(BuildContext context, Widget? child) {
@@ -49,14 +54,14 @@ class MyApp extends StatelessWidget {
             );
             break;
           case AuthenticationStatus.unauthenticated:
-            // AppRouter.instance().replace(
-            //   MainScreenRoute(
-            //     hiveRepository: HiveRepository(),
-            //     userRepository: userRepository,
-            //   ),
-            // );
-            AppRouter.instance()
-                .replace(AuthenticationRoute(status: state.status));
+            AppRouter.instance().replace(
+              MainScreenRoute(
+                hiveRepository: HiveRepository(),
+                userRepository: userRepository,
+              ),
+            );
+            // AppRouter.instance()
+            //     .replace(AuthenticationRoute(status: state.status));
             break;
           case AuthenticationStatus.registering:
             AppRouter.instance()

@@ -90,11 +90,9 @@ class MainBloc extends Bloc<MainScreenEvent, MainScreenState> {
     Emitter<MainScreenState> emit,
   ) async {
     await _hiveRepository.changeProject(event.newProjectId);
-    add(RefreshTasks());
     return emit(
       state.copyWith(
         activeProjectId: event.newProjectId,
-        // selectedDotIndex: event.newProjectId, добавить
       ),
     );
   }
@@ -117,7 +115,6 @@ class MainBloc extends Bloc<MainScreenEvent, MainScreenState> {
     Emitter<MainScreenState> emit,
   ) async {
     await _hiveRepository.removeTask(event.index);
-    add(RefreshTasks());
     return emit(state.copyWith(tasks: _hiveRepository.tasks));
   }
 

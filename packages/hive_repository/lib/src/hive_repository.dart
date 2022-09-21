@@ -48,7 +48,6 @@ class HiveRepository {
 
   Future<void> _readProjectsFromHive() async {
     _projects = (await _projectBox).values.toList();
-    // (await _projectBox).deleteFromDisk();
     if ((await _projectBox).length != 0) {
       _activeProjectKey = 0;
     }
@@ -56,7 +55,7 @@ class HiveRepository {
 
   Future<void> _readTasksFromHive() async {
     _tasks = (await _taskBox).values.toList();
-    // print(_tasks.length);
+    _controller.add(StorageStatus.hasData);
   }
 
   Future<void> _setTaskBox() async {
@@ -76,7 +75,6 @@ class HiveRepository {
   }
 
   Future<void> addProject(Project newProject) async {
-    //кидать ошибки или еще че
     if (newProject.projectTitle == '') return;
     for (final project in _projects) {
       if (project.projectTitle == newProject.projectTitle) return;
