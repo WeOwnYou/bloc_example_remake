@@ -24,7 +24,7 @@ class MainScreenState extends Equatable {
     required List<Task> tasks,
   }) : this._(
           user: user,
-          status: StorageStatus.initial,
+          status: StorageStatus.hasData,
           projects: projects,
           tasks: tasks,
           activeProjectId: projects.first.id,

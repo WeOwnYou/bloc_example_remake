@@ -1,5 +1,20 @@
-export 'category_card_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:hive_repository/hive_repository.dart';
 
+export 'category_card_widget.dart';
+export 'task_card_widget.dart';
+
+extension TimeOfDayExtension on TimeOfDay {
+  String getTime() {
+    String time;
+    var hours = (hour >= 12 ? (hour - 12) : hour).toString();
+    hours = hours.length == 1 ? ('0$hours') : hours;
+    final minutes =
+        minute.toString().length == 1 ? ('0$minute') : minute.toString();
+    time = '$hours:$minutes ${period.name}';
+    return time;
+  }
+}
 
 Map<int, String> monthNames = {
   1: 'Jan',
@@ -27,12 +42,19 @@ Map<int, String> weekdaysNames = {
 };
 
 extension DatesExtension on DateTime {
+  bool isEqual(DateTime other) {
+    if (year == other.year && month == other.month && day == other.day) {
+      return true;
+    }
+    return false;
+  }
+
   String getMonthName() {
-    return monthNames[month]??'';
+    return monthNames[month] ?? '';
   }
 
   String getWeekdayName() {
-    return weekdaysNames[weekday]??'';
+    return weekdaysNames[weekday] ?? '';
   }
 
   int numberOfDaysInMonth() {
@@ -49,4 +71,23 @@ extension DatesExtension on DateTime {
         return 30;
     }
   }
+}
+
+int daysOnTaskRemaining(Task task) => task.durationMinutes() ~/ 60 ~/ 24;
+int hoursOnTasRemaining(Task task) =>
+    (task.durationMinutes() - daysOnTaskRemaining(task) * 24 * 60) ~/ 60;
+int minutesOnTaskRemaining(Task task) =>
+    task.durationMinutes() -
+    daysOnTaskRemaining(task) * 24 * 60 -
+    hoursOnTasRemaining(task) * 60;
+String minutesRemainingTitle(int days, int hours, int minutes) {
+  var minutesTitle = '$minutes minutes';
+  if (minutes == 0) {
+    if (days == 0 && hours == 0) {
+      minutesTitle = 'No time';
+    } else {
+      minutesTitle = '';
+    }
+  }
+  return minutesTitle;
 }

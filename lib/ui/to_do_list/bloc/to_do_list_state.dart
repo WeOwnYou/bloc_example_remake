@@ -1,19 +1,19 @@
 part of 'to_do_list_bloc.dart';
 
 class ToDoListState extends Equatable {
-  final DateTime _date;
-  String get month => _date.getMonthName();
-  String get year => _date.year.toString();
-  const ToDoListState._({required DateTime date}):_date = date;
+  final DateTime date;
+  String get month => date.getMonthName();
+  String get year => date.year.toString();
+  const ToDoListState._({required this.date});
   ToDoListState.initial()
       : this._(date: DateTime.now());
 
   ToDoListState copyWith({DateTime? date}) {
-    return ToDoListState._(date: date ?? _date);
+    return ToDoListState._(date: date ?? this.date);
   }
 
 
 
   @override
-  List<Object?> get props => [_date];
+  List<Object?> get props => [date];
 }

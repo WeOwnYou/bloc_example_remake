@@ -1,33 +1,54 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_repository/hive_repository.dart' show Project;
+import 'package:hive_repository/hive_repository.dart' show Project, Task;
 import 'package:vedita_learning2/app_settings/app_colors.dart';
 import 'package:vedita_learning2/ui/bottom_nav_bar/bloc/main_screen_bloc.dart';
 import 'package:vedita_learning2/ui/home/bloc/home_bloc.dart';
 import 'package:vedita_learning2/ui/home/widgets/widgets.dart';
-import 'package:vedita_learning2/ui/widgets/category_card_widget.dart';
+import 'package:vedita_learning2/ui/widgets/widgets.dart';
 
-class HomePage extends StatelessWidget implements AutoRouteWrapper {
+class HomePage extends StatelessWidget with WidgetsBindingObserver implements AutoRouteWrapper{
   const HomePage({super.key});
+
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch(state){
+      case AppLifecycleState.resumed:
+        // TODO: Handle this case.
+        break;
+      case AppLifecycleState.inactive:
+        // TODO: Handle this case.
+        break;
+      case AppLifecycleState.paused:
+        // TODO: Handle this case.
+        break;
+      case AppLifecycleState.detached:
+        // TODO: Handle this case.
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final projectsExist = context.select<MainBloc, int>(
+          (bloc) => bloc.state.projects?.length ?? 0,
+        ) !=
+        0;
+    final tasks =
+        context.select<MainBloc, List<Task>?>((bloc) => bloc.state.tasks);
+    final tasksExist = (tasks?.length ?? 0) != 0;
     const sliversIfProjectsExist = [
       _BuildCategoryCards(),
       _BuildSlidingProject(),
       _BuildSlidingDotes(),
     ];
-    const sliversIfTasksExist = [
-      _BuildTaskTitleWidget(),
+    final sliversIfTasksExist = [
+      const _BuildTaskTitleWidget(),
+      _BuildTaskList(tasks: tasks),
     ];
-    final projectsExist = context.select<MainBloc, int>(
-          (bloc) => bloc.state.projects?.length ?? 0,
-        ) !=
-        0;
-    final tasksExist = context
-            .select<MainBloc, int>((bloc) => bloc.state.tasks?.length ?? 0) !=
-        0;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -63,7 +84,7 @@ class _BuildAppBar extends StatelessWidget {
       leading: IconButton(
         icon: const Icon(Icons.delete),
         onPressed: () {
-          addEvent(const RemoveProject());
+          addEvent(RemoveProject());
         },
       ),
       actions: [
@@ -73,6 +94,7 @@ class _BuildAppBar extends StatelessWidget {
             color: AppColors.textAndIconColor,
           ),
           onPressed: () {
+            context.read<AuthenticationRepository>().logOut();
             ScaffoldMessenger.of(context).showSnackBar(
               BuildAddProjectSnackBar(
                 key: key,
@@ -147,10 +169,11 @@ class _BuildCategoryCards extends StatelessWidget {
               childAspectRatio: 156 / 70,
             ),
             itemBuilder: (context, index) {
-              return CategoryCardWidget(
+              return CategoryCardWidget<ChangeCategory>(
                 title: categories[index],
                 isSelected: categories[index] == selectedTitle,
-                onTap: context.read<HomeBloc>().add,
+                addEventFunc: context.read<HomeBloc>().add,
+                changeCategoryEvent: ChangeCategory(categories[index]),
                 selectedTextColor: AppColors.textAndIconColor,
                 unselectedTextColor: AppColors.textAndIconColor,
                 unselectedBackgroundColor: AppColors.unselectedCardColor,
@@ -286,6 +309,46 @@ class _BuildTaskTitleWidget extends StatelessWidget {
           'Progress',
           style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         ),
+      ),
+    );
+  }
+}
+
+class _BuildTaskList extends StatelessWidget {
+  final List<Task>? tasks;
+  const _BuildTaskList({
+    required this.tasks,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          final task = tasks![index];
+          final days = daysOnTaskRemaining(task);
+          final hours = hoursOnTasRemaining(task);
+          final minutes = minutesOnTaskRemaining(task);
+          final minutesStr = minutesRemainingTitle(days, hours, minutes);
+          return Dismissible(
+            direction: DismissDirection.endToStart,
+            child: FractionallySizedBox(
+              widthFactor: 0.842,
+              child: TaskCardWidget(
+                task: task,
+                days: days,
+                hours: hours,
+                minutesStr: minutesStr,
+              ),
+            ),
+            onDismissed: (_) {
+              context.read<MainBloc>().add(RemoveTask(index));
+            },
+            key: ValueKey<Task?>(tasks?[index]),
+          );
+        },
+        childCount: tasks?.length ?? 0,
       ),
     );
   }

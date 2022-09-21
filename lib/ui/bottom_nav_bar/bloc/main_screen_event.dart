@@ -34,6 +34,13 @@ class ChangeProject extends MainScreenEvent {
   List<Object?> get props => [newProjectId];
 }
 
-class RemoveProject extends MainScreenEvent {
-  const RemoveProject();
+class RemoveProject extends MainScreenEvent {}
+
+class RemoveTask extends MainScreenEvent{
+  final int index;
+  const RemoveTask(this.index);
+  @override
+  List<Object?> get props => [];
 }
+
+class RefreshTasks extends MainScreenEvent {}

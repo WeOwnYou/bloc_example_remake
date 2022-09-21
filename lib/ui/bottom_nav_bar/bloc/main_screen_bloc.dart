@@ -15,6 +15,7 @@ class MainBloc extends Bloc<MainScreenEvent, MainScreenState> {
   late final StreamSubscription<StorageStatus> _homePageStatusSubscription;
 
   String get username => _username;
+  HiveRepository get hiveRepository => _hiveRepository;
 
   MainBloc({
     required UserRepository userRepository,
@@ -30,6 +31,8 @@ class MainBloc extends Bloc<MainScreenEvent, MainScreenState> {
     on<AddProject>(_onAddProject);
     on<ChangeProject>(_onChangeProject);
     on<RemoveProject>(_onRemoveProject);
+    on<RemoveTask>(_onRemoveTask);
+    on<RefreshTasks>(_onRefreshTasks);
   }
 
   Future<void> _onStorageStatusChanged(
@@ -45,7 +48,7 @@ class MainBloc extends Bloc<MainScreenEvent, MainScreenState> {
     switch (event.status) {
       case StorageStatus.empty:
         return emit(MainScreenState.empty(mainScreenUser));
-      case StorageStatus.initial:
+      case StorageStatus.hasData:
         final projects = _hiveRepository.projects;
         final tasks = _hiveRepository.tasks;
         return emit(
@@ -87,6 +90,7 @@ class MainBloc extends Bloc<MainScreenEvent, MainScreenState> {
     Emitter<MainScreenState> emit,
   ) async {
     await _hiveRepository.changeProject(event.newProjectId);
+    add(RefreshTasks());
     return emit(
       state.copyWith(
         activeProjectId: event.newProjectId,
@@ -106,6 +110,22 @@ class MainBloc extends Bloc<MainScreenEvent, MainScreenState> {
         activeProjectId: _hiveRepository.activeProjectKey,
       ),
     );
+  }
+
+  Future<void> _onRemoveTask(
+    RemoveTask event,
+    Emitter<MainScreenState> emit,
+  ) async {
+    await _hiveRepository.removeTask(event.index);
+    add(RefreshTasks());
+    return emit(state.copyWith(tasks: _hiveRepository.tasks));
+  }
+
+  Future<void> _onRefreshTasks(
+    RefreshTasks event,
+    Emitter<MainScreenState> emit,
+  ) async {
+    return emit(state.copyWith(tasks: _hiveRepository.tasks));
   }
 
   void dispose() {

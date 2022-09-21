@@ -1,13 +1,14 @@
+import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomePageEvent, HomePageState> {
   final ScrollController _pageScrollController = ScrollController();
   double _projectPageSize = 0;
+  Timer? _debouncer;
 
   HomeBloc() : super(const HomePageState.initial()) {
     on<ChangeCategory>(_onChangeCategory);

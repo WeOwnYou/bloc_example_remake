@@ -6,7 +6,7 @@ import 'package:hive_repository/hive_repository.dart';
 import 'package:hive_repository/src/hive_provider.dart';
 import 'package:hive_repository/src/models/models.dart';
 
-enum StorageStatus { empty, initial, loading }
+enum StorageStatus { empty, hasData, loading }
 
 class HiveRepository {
   final _controller = StreamController<StorageStatus>();
@@ -24,7 +24,7 @@ class HiveRepository {
     if (_projects.isEmpty) {
       yield StorageStatus.empty;
     } else {
-      yield StorageStatus.initial;
+      yield StorageStatus.hasData;
     }
     yield* _controller.stream;
   }
@@ -37,6 +37,7 @@ class HiveRepository {
     await _setProjectBox();
     if ((await _projectBox).isEmpty) return;
     await _readProjectsFromHive();
+    await _setTaskBox();
   }
 
   Future<void> _setProjectBox() async {
@@ -48,9 +49,14 @@ class HiveRepository {
   Future<void> _readProjectsFromHive() async {
     _projects = (await _projectBox).values.toList();
     // (await _projectBox).deleteFromDisk();
-    if ((await _projectBox).length == 0) {
+    if ((await _projectBox).length != 0) {
       _activeProjectKey = 0;
     }
+  }
+
+  Future<void> _readTasksFromHive() async {
+    _tasks = (await _taskBox).values.toList();
+    // print(_tasks.length);
   }
 
   Future<void> _setTaskBox() async {
@@ -69,10 +75,6 @@ class HiveRepository {
     await _readTasksFromHive();
   }
 
-  Future<void> _readTasksFromHive() async {
-    _tasks = (await _taskBox).values.toList();
-  }
-
   Future<void> addProject(Project newProject) async {
     //кидать ошибки или еще че
     if (newProject.projectTitle == '') return;
@@ -84,6 +86,13 @@ class HiveRepository {
     await (await _projectBox).compact();
     await _readProjectsFromHive();
     await _setTaskBox();
+  }
+
+  Future<void> addTask(Task newTask) async {
+    if (_activeProjectKey == null) return;
+    await (await _taskBox).add(newTask);
+    await (await _taskBox).compact();
+    await _readTasksFromHive();
   }
 
   Future<void> removeProject() async {
@@ -101,23 +110,16 @@ class HiveRepository {
     await _setTaskBox();
   }
 
+  Future<void> removeTask(int index) async {
+    await (await _taskBox).deleteAt(index);
+    await (await _taskBox).compact();
+  }
+
+
   Future<void> changeProject(int newProjectKey) async {
     if (newProjectKey == _activeProjectKey) return;
     _activeProjectKey = newProjectKey;
     await _setTaskBox();
-  }
-
-  Future<void> addTask(Task newTask) async {
-    final keys = (await _taskBox).keys.toList();
-    if (_activeProjectKey == null || keys[_activeProjectKey!] == null) return;
-    await (await _taskBox).add(newTask);
-    await (await _taskBox).compact();
-    await _readTasksFromHive();
-  }
-
-  Future<void> removeTask(int index) async {
-    await (await _taskBox).deleteAt(index);
-    await (await _taskBox).compact();
   }
 
   Future<void> _resetProjectKeys() async {

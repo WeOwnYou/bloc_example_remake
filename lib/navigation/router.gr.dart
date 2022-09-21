@@ -71,9 +71,15 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     AddTaskRoute.name: (routeData) {
+      final args = routeData.argsAs<AddTaskRouteArgs>();
       return MaterialPageX<void>(
         routeData: routeData,
-        child: const AddTaskPage(),
+        child: WrappedRoute(
+            child: AddTaskPage(
+          key: args.key,
+          hiveRepository: args.hiveRepository,
+          selectedDate: args.selectedDate,
+        )),
       );
     },
   };
@@ -276,12 +282,39 @@ class ToDoListRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [AddTaskPage]
-class AddTaskRoute extends PageRouteInfo<void> {
-  const AddTaskRoute()
-      : super(
+class AddTaskRoute extends PageRouteInfo<AddTaskRouteArgs> {
+  AddTaskRoute({
+    Key? key,
+    required HiveRepository hiveRepository,
+    required DateTime selectedDate,
+  }) : super(
           AddTaskRoute.name,
           path: 'add_task_page',
+          args: AddTaskRouteArgs(
+            key: key,
+            hiveRepository: hiveRepository,
+            selectedDate: selectedDate,
+          ),
         );
 
   static const String name = 'AddTaskRoute';
+}
+
+class AddTaskRouteArgs {
+  const AddTaskRouteArgs({
+    this.key,
+    required this.hiveRepository,
+    required this.selectedDate,
+  });
+
+  final Key? key;
+
+  final HiveRepository hiveRepository;
+
+  final DateTime selectedDate;
+
+  @override
+  String toString() {
+    return 'AddTaskRouteArgs{key: $key, hiveRepository: $hiveRepository, selectedDate: $selectedDate}';
+  }
 }

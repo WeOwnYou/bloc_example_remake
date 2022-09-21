@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:vedita_learning2/ui/home/bloc/home_bloc.dart';
 
-class CategoryCardWidget extends StatelessWidget {
-  const CategoryCardWidget({
-    Key? key,
-    required this.title,
-    required this.isSelected,
-    required this.onTap,
-    this.selectedBackgroundColor,
-    this.selectedBackgroundGradient,
-    required this.selectedTextColor,
-    required this.unselectedTextColor,
-    required this.unselectedBackgroundColor,
-  }) : super(key: key);
+// class ChangeCategoryEvent<Event> extends Object{
+//   String title;
+//   ChangeCategoryEvent(this.title);
+// }
+
+class CategoryCardWidget<ChangeCategoryEvent> extends StatelessWidget {
   final String title;
   final bool isSelected;
-  final void Function(HomePageEvent event) onTap;
+  final void Function(ChangeCategoryEvent event) addEventFunc;
+  final ChangeCategoryEvent changeCategoryEvent;
   final Color? selectedBackgroundColor;
   final LinearGradient? selectedBackgroundGradient;
   final Color selectedTextColor;
   final Color unselectedTextColor;
   final Color unselectedBackgroundColor;
+  const CategoryCardWidget({
+    Key? key,
+    required this.title,
+    required this.isSelected,
+    required this.addEventFunc,
+    this.selectedBackgroundColor,
+    this.selectedBackgroundGradient,
+    required this.selectedTextColor,
+    required this.unselectedTextColor,
+    required this.unselectedBackgroundColor,
+    required this.changeCategoryEvent,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +62,7 @@ class CategoryCardWidget extends StatelessWidget {
           ),
         ),
         onTap: () {
-          onTap(ChangeCategory(title));
+          addEventFunc(changeCategoryEvent);
         },
       ),
     );
