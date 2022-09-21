@@ -35,6 +35,7 @@ class _LifeCycleManagerState extends State<LifeCycleManager>
       case AppLifecycleState.inactive:
       case AppLifecycleState.paused:
         _timer ??= Timer(const Duration(seconds: 5), () {
+          print('exited');
           setState(() {
             context
                 .read<AuthenticationBloc>()

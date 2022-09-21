@@ -22,6 +22,7 @@ class AddTaskHeader extends StatelessWidget {
         IconButton(
           icon: Icon(
             Icons.search,
+            color: Colors.white,
           ),
           onPressed: null,
         )
