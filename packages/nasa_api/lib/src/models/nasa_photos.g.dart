@@ -4,15 +4,15 @@ class NasaPhotos {
   NasaPhotos({
       this.collection,});
 
-  NasaPhotos.fromJson(dynamic json) {
+  NasaPhotos.fromJson(Map<String, dynamic> json) {
     collection = json['collection'] != null ? Collection.fromJson(json['collection']) : null;
   }
-  Collection collection;
+  Collection? collection;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     if (collection != null) {
-      map['collection'] = collection.toJson();
+      map['collection'] = collection!.toJson();
     }
     return map;
   }

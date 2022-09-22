@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_repository/hive_repository.dart';
 
 export 'category_card_widget.dart';
+export 'shimmer_widget.dart';
 export 'task_card_widget.dart';
 
 extension TimeOfDayExtension on TimeOfDay {

@@ -41,6 +41,9 @@ dependencies:
   hive_flutter: ^1.1.0
   hive_repository:
     path: packages/hive_repository
+  nasa_api:
+    path: packages/nasa_api
+  shimmer: ^2.0.0
   user_repository:
     path: packages/user_repository
 

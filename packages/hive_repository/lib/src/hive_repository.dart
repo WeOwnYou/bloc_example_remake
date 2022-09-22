@@ -96,7 +96,6 @@ class HiveRepository {
   Future<void> removeProject() async {
     final keys = (await _projectBox).keys.toList();
     if (_activeProjectKey == null || keys[_activeProjectKey!] == null) return;
-    await (await _taskBox).clear();
     await (await _taskBox).deleteFromDisk();
     await (await _projectBox).delete(keys[_activeProjectKey!]);
     if ((await _projectBox).keys.isEmpty || _activeProjectKey! < 1) {

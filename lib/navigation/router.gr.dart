@@ -58,10 +58,10 @@ class _$AppRouter extends RootStackRouter {
         child: const NotificationsPage(),
       );
     },
-    SearchRoute.name: (routeData) {
+    SearchEmptyRoute.name: (routeData) {
       return MaterialPageX<void>(
         routeData: routeData,
-        child: const SearchPage(),
+        child: WrappedRoute(child: const SearchEmptyPage()),
       );
     },
     ToDoListRoute.name: (routeData) {
@@ -80,6 +80,29 @@ class _$AppRouter extends RootStackRouter {
           hiveRepository: args.hiveRepository,
           selectedDate: args.selectedDate,
         )),
+      );
+    },
+    SearchRoute.name: (routeData) {
+      final args = routeData.argsAs<SearchRouteArgs>(
+          orElse: () => const SearchRouteArgs());
+      return MaterialPageX<void>(
+        routeData: routeData,
+        child: SearchPage(
+          key: args.key,
+          keyword: args.keyword,
+        ),
+      );
+    },
+    DetailsRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<DetailsRouteArgs>(
+          orElse: () => DetailsRouteArgs(nasaId: pathParams.getString('id')));
+      return MaterialPageX<void>(
+        routeData: routeData,
+        child: DetailsPage(
+          key: args.key,
+          nasaId: args.nasaId,
+        ),
       );
     },
   };
@@ -135,9 +158,21 @@ class _$AppRouter extends RootStackRouter {
               parent: MainScreenRoute.name,
             ),
             RouteConfig(
-              SearchRoute.name,
+              SearchEmptyRoute.name,
               path: 'search_page',
               parent: MainScreenRoute.name,
+              children: [
+                RouteConfig(
+                  SearchRoute.name,
+                  path: '',
+                  parent: SearchEmptyRoute.name,
+                ),
+                RouteConfig(
+                  DetailsRoute.name,
+                  path: 'details_page/:id',
+                  parent: SearchEmptyRoute.name,
+                ),
+              ],
             ),
           ],
         ),
@@ -257,15 +292,16 @@ class NotificationsRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [SearchPage]
-class SearchRoute extends PageRouteInfo<void> {
-  const SearchRoute()
+/// [SearchEmptyPage]
+class SearchEmptyRoute extends PageRouteInfo<void> {
+  const SearchEmptyRoute({List<PageRouteInfo>? children})
       : super(
-          SearchRoute.name,
+          SearchEmptyRoute.name,
           path: 'search_page',
+          initialChildren: children,
         );
 
-  static const String name = 'SearchRoute';
+  static const String name = 'SearchEmptyRoute';
 }
 
 /// generated route for
@@ -316,5 +352,74 @@ class AddTaskRouteArgs {
   @override
   String toString() {
     return 'AddTaskRouteArgs{key: $key, hiveRepository: $hiveRepository, selectedDate: $selectedDate}';
+  }
+}
+
+/// generated route for
+/// [SearchPage]
+class SearchRoute extends PageRouteInfo<SearchRouteArgs> {
+  SearchRoute({
+    Key? key,
+    String keyword = '',
+  }) : super(
+          SearchRoute.name,
+          path: '',
+          args: SearchRouteArgs(
+            key: key,
+            keyword: keyword,
+          ),
+        );
+
+  static const String name = 'SearchRoute';
+}
+
+class SearchRouteArgs {
+  const SearchRouteArgs({
+    this.key,
+    this.keyword = '',
+  });
+
+  final Key? key;
+
+  final String keyword;
+
+  @override
+  String toString() {
+    return 'SearchRouteArgs{key: $key, keyword: $keyword}';
+  }
+}
+
+/// generated route for
+/// [DetailsPage]
+class DetailsRoute extends PageRouteInfo<DetailsRouteArgs> {
+  DetailsRoute({
+    Key? key,
+    required String nasaId,
+  }) : super(
+          DetailsRoute.name,
+          path: 'details_page/:id',
+          args: DetailsRouteArgs(
+            key: key,
+            nasaId: nasaId,
+          ),
+          rawPathParams: <String, String>{'id': nasaId},
+        );
+
+  static const String name = 'DetailsRoute';
+}
+
+class DetailsRouteArgs {
+  const DetailsRouteArgs({
+    this.key,
+    required this.nasaId,
+  });
+
+  final Key? key;
+
+  final String nasaId;
+
+  @override
+  String toString() {
+    return 'DetailsRouteArgs{key: $key, nasaId: $nasaId}';
   }
 }

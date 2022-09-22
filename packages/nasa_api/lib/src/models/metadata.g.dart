@@ -5,7 +5,7 @@ class Metadata {
   Metadata.fromJson(dynamic json) {
     totalHits = json['total_hits'];
   }
-  int totalHits;
+  int? totalHits;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

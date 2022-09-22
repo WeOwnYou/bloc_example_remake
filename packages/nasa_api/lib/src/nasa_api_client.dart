@@ -11,26 +11,27 @@ class NasaApiClient {
   NasaApiClient() : _dio = Dio(BaseOptions(baseUrl: _baseUrl));
   Future<NasaPhotos> searchPhotos({
     required String searchName,
-    int pageIndex = 1,
-    String keyWord = '',
-    String nasaId = '',
+    required int pageIndex,
+    required String keyword,
+    required String nasaId,
   }) async {
-    final response = await _dio.get<NasaPhotos>(
+    final response = await _dio.get<Map<String, dynamic>>(
       'search',
       queryParameters: <String, dynamic>{
         'q': searchName,
         'media_type': 'image',
         'page': pageIndex.toString(),
-        'keywords': keyWord,
+        'keywords': keyword,
         'nasa_id': nasaId,
       },
     );
     if (response.statusCode != 200 || response.data == null) {
       throw ImagesRequestFailure();
     }
-    if (response.data!.collection.items.isEmpty) {
+    final nasaPhotos = NasaPhotos.fromJson(response.data!);
+    if (nasaPhotos.collection?.items?.isEmpty ?? false) {
       throw ImagesNotFound();
     }
-    return response.data!;
+    return nasaPhotos;
   }
 }

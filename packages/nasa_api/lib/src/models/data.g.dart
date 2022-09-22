@@ -1,6 +1,6 @@
 class Data {
   Data({
-      this.center, 
+      this.center,
       this.title, 
       this.nasaId, 
       this.dateCreated, 
@@ -21,15 +21,15 @@ class Data {
     secondaryCreator = json['secondary_creator'];
     description = json['description'];
   }
-  String center;
-  String title;
-  String nasaId;
-  String dateCreated;
-  List<String> keywords;
-  String mediaType;
-  String description508;
-  String secondaryCreator;
-  String description;
+  String? center;
+  String? title;
+  String? nasaId;
+  String? dateCreated;
+  List<String>? keywords;
+  String? mediaType;
+  String? description508;
+  String? secondaryCreator;
+  String? description;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

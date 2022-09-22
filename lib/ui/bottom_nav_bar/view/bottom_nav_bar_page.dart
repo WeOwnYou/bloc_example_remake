@@ -22,15 +22,22 @@ class BottomNavBarPage extends StatelessWidget implements AutoRouteWrapper {
         HomeRoute(),
         ToDoListEmptyRoute(),
         NotificationsRoute(),
-        SearchRoute(),
+        SearchEmptyRoute(),
       ],
       bottomNavigationBuilder: (context, tabsRouter) {
         return BottomNavigationBar(
+          // currentIndex: context.select<MainBloc, int>((bloc) => bloc.state.activeTab),
           type: BottomNavigationBarType.fixed,
           selectedItemColor: Colors.purple,
           unselectedItemColor: Colors.grey,
           currentIndex: tabsRouter.activeIndex,
-          onTap: tabsRouter.setActiveIndex,
+          onTap: (index){
+            if((context.read<MainBloc>().state.projects?.isEmpty??false) && index == 1) return;
+            // if(index == 3) {
+            //   AppRouter.instance().navigate(SearchRoute());
+            // }
+            tabsRouter.setActiveIndex(index);
+          },
           items: const [
             BottomNavigationBarItem(
               label: 'Home',

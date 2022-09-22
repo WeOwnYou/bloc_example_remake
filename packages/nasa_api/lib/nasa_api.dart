@@ -1,7 +1,4 @@
 library nasa_api;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/models/nasa_photo.dart';
+export 'src/nasa_service.dart';

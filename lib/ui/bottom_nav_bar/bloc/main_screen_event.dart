@@ -36,7 +36,7 @@ class ChangeProject extends MainScreenEvent {
 
 class RemoveProject extends MainScreenEvent {}
 
-class RemoveTask extends MainScreenEvent{
+class RemoveTask extends MainScreenEvent {
   final int index;
   const RemoveTask(this.index);
   @override
@@ -44,3 +44,6 @@ class RemoveTask extends MainScreenEvent{
 }
 
 class RefreshTasks extends MainScreenEvent {}
+
+class RefreshSearchScreen extends MainScreenEvent {}
+

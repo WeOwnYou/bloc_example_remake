@@ -193,7 +193,6 @@ class _BuildSlidingProject extends StatelessWidget {
               final title = projects![index].projectTitle;
               return ProjectTile(
                 projectName: 'Project $index',
-                onProjectTap: context.read<MainBloc>().add,
                 title: title,
                 dateTime: DateTime.now(),
                 rightPadding: 24 / 619 * width,

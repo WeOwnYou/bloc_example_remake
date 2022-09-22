@@ -54,6 +54,9 @@ class AuthenticationBloc
   ) {
     if (state.status == AuthenticationStatus.unauthenticated ||
         state.status == AuthenticationStatus.registering) {
+      if (state.pin.length == 4) {
+        add(PinSubmitted());
+      }
       if (event.digit == -1) {
         emit(state.copyWith(pin: state.pin.substring(0, state.pin.length - 1)));
       } else {

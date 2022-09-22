@@ -1,6 +1,6 @@
 class Next {
   Next({
-      this.rel, 
+      this.rel,
       this.prompt, 
       this.href,});
 
@@ -9,9 +9,9 @@ class Next {
     prompt = json['prompt'];
     href = json['href'];
   }
-  String rel;
-  String prompt;
-  String href;
+  String? rel;
+  String? prompt;
+  String? href;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

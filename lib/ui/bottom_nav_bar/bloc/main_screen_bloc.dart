@@ -32,7 +32,6 @@ class MainBloc extends Bloc<MainScreenEvent, MainScreenState> {
     on<ChangeProject>(_onChangeProject);
     on<RemoveProject>(_onRemoveProject);
     on<RemoveTask>(_onRemoveTask);
-    on<RefreshTasks>(_onRefreshTasks);
   }
 
   Future<void> _onStorageStatusChanged(
@@ -56,6 +55,9 @@ class MainBloc extends Bloc<MainScreenEvent, MainScreenState> {
             user: mainScreenUser,
             projects: projects,
             tasks: tasks,
+            activeTab: state.activeTab,
+            activeProjectId:
+                state.activeProjectId ?? (tasks.isEmpty ? null : 0),
           ),
         );
       case StorageStatus.loading:
@@ -92,7 +94,9 @@ class MainBloc extends Bloc<MainScreenEvent, MainScreenState> {
     await _hiveRepository.changeProject(event.newProjectId);
     return emit(
       state.copyWith(
-        activeProjectId: event.newProjectId,
+        tasks: _hiveRepository.tasks,
+        projects: _hiveRepository.projects,
+        activeProjectId: _hiveRepository.activeProjectKey,
       ),
     );
   }
@@ -115,13 +119,6 @@ class MainBloc extends Bloc<MainScreenEvent, MainScreenState> {
     Emitter<MainScreenState> emit,
   ) async {
     await _hiveRepository.removeTask(event.index);
-    return emit(state.copyWith(tasks: _hiveRepository.tasks));
-  }
-
-  Future<void> _onRefreshTasks(
-    RefreshTasks event,
-    Emitter<MainScreenState> emit,
-  ) async {
     return emit(state.copyWith(tasks: _hiveRepository.tasks));
   }
 

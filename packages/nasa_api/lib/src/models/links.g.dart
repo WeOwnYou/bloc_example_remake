@@ -1,6 +1,6 @@
 class Links {
   Links({
-      this.href, 
+      this.href,
       this.rel, 
       this.render,});
 
@@ -9,9 +9,9 @@ class Links {
     rel = json['rel'];
     render = json['render'];
   }
-  String href;
-  String rel;
-  String render;
+  String? href;
+  String? rel;
+  String? render;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

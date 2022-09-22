@@ -54,14 +54,14 @@ class MyApp extends StatelessWidget {
             );
             break;
           case AuthenticationStatus.unauthenticated:
-            AppRouter.instance().replace(
-              MainScreenRoute(
-                hiveRepository: HiveRepository(),
-                userRepository: userRepository,
-              ),
-            );
-            // AppRouter.instance()
-            //     .replace(AuthenticationRoute(status: state.status));
+            // AppRouter.instance().replace(
+            //   MainScreenRoute(
+            //     hiveRepository: HiveRepository(),
+            //     userRepository: userRepository,
+            //   ),
+            // );
+            AppRouter.instance()
+                .replace(AuthenticationRoute(status: state.status));
             break;
           case AuthenticationStatus.registering:
             AppRouter.instance()

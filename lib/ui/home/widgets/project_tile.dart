@@ -9,12 +9,10 @@ class ProjectTile extends StatelessWidget {
   final String title;
   final DateTime dateTime;
   final int projectIndex;
-  final void Function(ChangeProject changeProject) onProjectTap;
   final double rightPadding;
   const ProjectTile({
     Key? key,
     required this.projectName,
-    required this.onProjectTap,
     required this.title,
     required this.dateTime,
     required this.rightPadding,
@@ -26,8 +24,8 @@ class ProjectTile extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     const oldBoxSize = 341;
     final boxSize = oldBoxSize / 619 * width;
-    var selectedProject =
-        context.select<MainBloc, int?>((bloc) => bloc.state.activeProjectId);
+    final selectedProject =
+        context.select<MainBloc, int?>((value) => value.state.activeProjectId);
     return Padding(
       padding: EdgeInsets.only(right: rightPadding),
       child: GestureDetector(
@@ -78,8 +76,7 @@ class ProjectTile extends StatelessWidget {
           ),
         ),
         onTap: () {
-          selectedProject = projectIndex;
-          onProjectTap(ChangeProject(selectedProject!));
+          context.read<MainBloc>().add(ChangeProject(projectIndex));
         },
       ),
     );

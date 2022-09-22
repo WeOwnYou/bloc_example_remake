@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:hive_repository/hive_repository.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:vedita_learning2/ui/add_task/view/add_task_page.dart';
+import 'package:vedita_learning2/ui/details/view/details_page.dart';
+import 'package:vedita_learning2/ui/search/view/search_emoty_page.dart';
 import 'package:vedita_learning2/ui/ui.dart';
 
 part 'router.gr.dart';
@@ -17,6 +19,7 @@ abstract class Routes {
   static const notificationsPage = 'notifications_page';
   static const searchPage = 'search_page';
   static const addTaskPage = 'add_task_page';
+  static const detailsPage = 'details_page';
 }
 
 @MaterialAutoRouter(
@@ -57,8 +60,19 @@ abstract class Routes {
           path: Routes.notificationsPage,
         ),
         AutoRoute<void>(
-          page: SearchPage,
+          page: SearchEmptyPage,
           path: Routes.searchPage,
+          name: 'SearchEmptyRoute',
+          children: [
+            AutoRoute<void>(
+              page: SearchPage,
+              initial: true,
+            ),
+            AutoRoute<void>(
+              path: '${Routes.detailsPage}/:id',
+              page: DetailsPage,
+            ),
+          ],
         ),
       ],
     ),
